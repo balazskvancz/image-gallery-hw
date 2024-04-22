@@ -1,0 +1,8 @@
+filippo.io/edwards25519 v1.1.0 h1:FNf4tywRC1HmFuKW5xopWpigGjJKiJSV0Cqo0cJWDaA=
+filippo.io/edwards25519 v1.1.0/go.mod h1:BxyFTGdWcka3PhytdK4V28tE5sGfRvvvRV7EaN4VDT4=
+github.com/balazskvancz/gorouter v1.2.2 h1:hr6n9slSuMgdf4kXvncutQyzSjK2OEY0KErXmGgmMJU=
+github.com/balazskvancz/gorouter v1.2.2/go.mod h1:0W8lkEMk/vha2qRonR6CgQAkWCVU1oiCRiwXGmfJsAc=
+github.com/balazskvancz/rtree v1.0.2 h1:6j5o4RDbaF8uu49yrLapu6649E6s26jTMkfdEAGI6pA=
+github.com/balazskvancz/rtree v1.0.2/go.mod h1:Q6neTW6sMmYkKRt4olSvKM6bGfLlVPIseQSTBUyE7vA=
+github.com/go-sql-driver/mysql v1.8.1 h1:LedoTUt/eveggdHS9qUFC1EFSa8bU2+1pZjSRpvNJ1Y=
+github.com/go-sql-driver/mysql v1.8.1/go.mod h1:wEBSXgmK//2ZFJyE+qWnIsVGmvmEKlqwuVSjsCm7DZg=
