@@ -11,6 +11,7 @@ const (
 	routeInsert string = "/api/images"
 	routeDelete string = "/api/images/{name}"
 	routeGet    string = "/api/images"
+	routePing   string = "/api/ping"
 )
 
 var (
@@ -59,4 +60,8 @@ func RegisterRoutes(router gorouter.Router, repo repository.Repository) {
 	router.Post(routeInsert, handleUpload(repo))
 	router.Delete(routeDelete, handleDelete(repo))
 	router.Get(routeGet, handleGet(repo))
+
+	router.Get(routePing, func(ctx gorouter.Context) {
+		ctx.SendRaw([]byte("Pong"), http.StatusOK, nil)
+	})
 }
