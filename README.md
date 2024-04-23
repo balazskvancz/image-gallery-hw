@@ -51,3 +51,13 @@ Ezeke mellett a fenti két `select` mező segítségével tudunk rendezést vég
 `Megnyitás` gomb esetén az alábbi nézet töltődik be:
 
 ![Kép megjelenítése](./images/image_modal.png)
+
+## Deployment
+
+A `backend` `PaaS` környezetben való futtatásához az `OpenShift`-et használtam. A kiadott útmutató szerint létrehoztam a saját fiókomat, majd egy azon belül egy `sandbox`-ban beimportáltam ezt a `repository`-t, majd a gyökérben található `Dockerfile` segítségével lebuildtettem és futtattam az alkalmást.
+
+Ezen felül – szintén az útmutató szerint – bekapcsolatam, hogy minden egyes `git push` során a `GitHub` `webhook`-on keresztül jelezzen az `OpenShift`-nek, amely a beállítottak szerint újrabuildelni és elindítja az alkalmazást. 
+
+Mivel éles környezetben nincs adatbázis a rendszer mellet, így ha megpróbál elérni a szolgáltatást, akkor az általam beállított hibaüzenetet kapom vissza, amely az alábbi:
+
+![Éles hibaüzenet](./images/live_error.png)
