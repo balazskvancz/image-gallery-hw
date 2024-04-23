@@ -55,6 +55,9 @@ func RegisterRoutes(router gorouter.Router, repo repository.Repository) {
 
 			next(ctx)
 		},
+		gorouter.MiddlewareWithMatchers(func(ctx gorouter.Context) bool {
+			return ctx.GetCleanedUrl() != routePing
+		}),
 	))
 
 	router.Post(routeInsert, handleUpload(repo))
