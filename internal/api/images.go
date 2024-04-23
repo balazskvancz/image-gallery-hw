@@ -21,13 +21,13 @@ var (
 func handleUpload(repo repository.Repository) gorouter.HandlerFunc {
 	return func(ctx gorouter.Context) {
 		if err := ctx.ParseForm(); err != nil {
-			ctx.SendRaw(nil, http.StatusBadRequest, nil)
+			ctx.SendJson(&apiError{Message: "Sikertelen form parseolás!"}, http.StatusBadRequest)
 			return
 		}
 
 		file, err := ctx.GetFormFile("image")
 		if err != nil {
-			ctx.SendRaw(nil, http.StatusBadRequest, nil)
+			ctx.SendJson(&apiError{Message: "Sikertelen fájlfeltöltés!"}, http.StatusBadRequest)
 			return
 		}
 
@@ -39,12 +39,12 @@ func handleUpload(repo repository.Repository) gorouter.HandlerFunc {
 		savePath := path.Join("uploads", name+extension)
 
 		if err := file.SaveTo(savePath); err != nil {
-			ctx.SendRaw(nil, http.StatusBadRequest, nil)
+			ctx.SendJson(&apiError{Message: "Sikertelen fájlfeltöltés!"}, http.StatusBadRequest)
 			return
 		}
 
 		if err := repo.Insert(name); err != nil {
-			ctx.SendRaw(nil, http.StatusBadRequest, nil)
+			ctx.SendJson(&apiError{Message: "Sikertelen adatbázismvűvelet!"}, http.StatusBadRequest)
 			return
 		}
 

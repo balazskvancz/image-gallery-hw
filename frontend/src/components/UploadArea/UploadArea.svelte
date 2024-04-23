@@ -64,7 +64,7 @@
   }
 </script>
 
-<div class="col-sm-12 col-md-6 col-lg-4 mx-auto">
+<div class="col-sm-12 col-md-6 mx-auto">
   <div class="card mb-3">
     <div class="card-header">
       <h2>Új fájl feltöltése</h2>

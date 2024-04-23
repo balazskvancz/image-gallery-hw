@@ -23,25 +23,18 @@ type dbConfig struct {
 const configPath string = "./config.json"
 
 func main() {
-	config := getConfig()
-	if config == nil {
-		fmt.Printf("Nincs adatbázis config!")
-		os.Exit(1)
-	}
+	db := getDbConnection()
 
-	db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:%d)/%s", config.User, config.Password, config.Host, config.Port, config.Database))
-	if err != nil {
-		fmt.Printf("Nincs adatbázis kapcsolat!")
-		os.Exit(1)
+	if db != nil {
+		defer db.Close()
 	}
-	defer db.Close()
 
 	s := internal.NewServer(repository.New(db))
 
 	s.Listen()
 }
 
-func getConfig() *dbConfig {
+func getDbConnection() *sql.DB {
 	b, err := os.ReadFile(configPath)
 	if err != nil {
 		return nil
@@ -53,5 +46,10 @@ func getConfig() *dbConfig {
 		return nil
 	}
 
-	return &c
+	db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:%d)/%s", c.User, c.Password, c.Host, c.Port, c.Database))
+	if err != nil {
+		return nil
+	}
+
+	return db
 }

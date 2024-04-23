@@ -20,6 +20,14 @@ type repository struct {
 
 // New létrehoz egy új egyedet.
 func New(db *sql.DB) Repository {
+	if db == nil {
+		return nil
+	}
+
+	if err := db.Ping(); err != nil {
+		return nil
+	}
+
 	return &repository{
 		DB: db,
 	}

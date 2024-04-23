@@ -18,6 +18,10 @@ var (
 	allowedMethods         string = http.MethodGet + ", " + http.MethodPost + ", " + http.MethodDelete + ", " + http.MethodPut
 )
 
+type apiError struct {
+	Message string `json:"message"`
+}
+
 func cors() gorouter.Middleware {
 	var mw = func(ctx gorouter.Context, next gorouter.HandlerFunc) {
 		corsHeader := http.Header{
@@ -39,6 +43,18 @@ func cors() gorouter.Middleware {
 // RegisterRoutes beregisztrálja az API végpontokat.
 func RegisterRoutes(router gorouter.Router, repo repository.Repository) {
 	router.RegisterMiddlewares(cors())
+
+	router.RegisterMiddlewares(gorouter.NewMiddleware(
+		func(ctx gorouter.Context, next gorouter.HandlerFunc) {
+			if repo == nil {
+				ctx.SendJson(&apiError{Message: "Nincs adatbázis kapcsolat!"}, http.StatusBadRequest)
+
+				return
+			}
+
+			next(ctx)
+		},
+	))
 
 	router.Post(routeInsert, handleUpload(repo))
 	router.Delete(routeDelete, handleDelete(repo))

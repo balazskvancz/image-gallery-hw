@@ -9,10 +9,14 @@
 
   import type { TImages, TOrderBy, TOrderDirection } from '../../definitions'
 
+  import Modal from '../Modal/Modal.svelte'
+
   let data: TImages = []
 
   let orderBy: string     = 'name'
   let direction: string   = 'asc'
+
+  let displayImageSrc: string | null = null
 
   /** Adatok szervertől való lekérdezése. */
   async function getData (): Promise<void> {
@@ -21,8 +25,6 @@
 
   /** Adatok lekérdezését hallgató eseménykezelő. */
   const unsubscribeOnRefresh = onRefreshData.subscribe(async (needToRefresh) => {
-    console.log(needToRefresh)
-
     if (needToRefresh) {
       await getData()
     }
@@ -44,6 +46,18 @@
     }
   }
 
+  /**
+   * Megjelenítés gomb eseménykezelője.
+   * @param name - A kép neve.
+   */
+  function onClickOpen (name: string): (e: Event) => void {
+    return (e: Event): void => {
+      e.preventDefault()
+
+      displayImageSrc = `http://localhost:3000/static/${ name }`
+    }
+  }
+
   onMount(async () => {
     await getData()
   })
@@ -52,6 +66,11 @@
     unsubscribeOnRefresh()
   })
 </script>
+
+
+<Modal
+  bind:imgSrc={ displayImageSrc }
+/>
 
 <div class="container-fluid">
   <div class="row">
@@ -94,10 +113,10 @@
             <td class="align-middle">{ image.name }</td>
             <td class="align-middle">{ image.createdAt }</td>
             <td class="align-middle">
-              <button class="btn btn-primary">Megnyitás</button>
+              <button class="btn btn-primary" on:click={ onClickOpen(image.name ) }>Megnyitás</button>
             </td>
             <td class="align-middle">
-              <button class="btn btn-danger" on:click={ onClickDelete(image.name)}>Törlés</button>
+              <button class="btn btn-danger" on:click={ onClickDelete(image.name) }>Törlés</button>
             </td>
           </tr>
         {/each}
